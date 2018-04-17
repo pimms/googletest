@@ -4363,8 +4363,8 @@ void TestEventListeners::SuppressEventForwarding() {
 
 // class UnitTest
 
-UnitTest::Container UnitTest::singletonContainer_;
-UnitTest* UnitTest::Container::t_;
+UnitTest::Container UnitTest::singleton_container_;
+UnitTest* UnitTest::Container::unit_test_singleton_;
 
 // Gets the singleton UnitTest object.  The first time this method is
 // called, a UnitTest object is constructed and returned.  Consecutive
@@ -4374,16 +4374,16 @@ UnitTest* UnitTest::Container::t_;
 // call this before main() starts, from which point on the return
 // value will never change.
 UnitTest* UnitTest::GetInstance() {
-  if (singletonContainer_.Get() == NULL) {
-    singletonContainer_.Set(new UnitTest);
+  if (singleton_container_.Get() == NULL) {
+    singleton_container_.Set(new UnitTest);
   }
 
-  return singletonContainer_.Get();
+  return singleton_container_.Get();
 }
 
 void UnitTest::DeinitializeInstance() {
-  if (singletonContainer_.Get()) {
-    singletonContainer_.Clear();
+  if (singleton_container_.Get()) {
+    singleton_container_.Clear();
   }
 }
 
@@ -4726,18 +4726,18 @@ UnitTest::Container::~Container() {
   Clear();
 }
 
-void UnitTest::Container::Set(UnitTest *t) {
-  t_ = t;
+void UnitTest::Container::Set(UnitTest *ut) {
+  unit_test_singleton_ = ut;
 }
 
 UnitTest* UnitTest::Container::Get() {
-  return t_;
+  return unit_test_singleton_;
 }
 
 void UnitTest::Container::Clear() {
-  if (t_) {
-    delete t_;
-    t_ = NULL;
+  if (unit_test_singleton_) {
+    delete unit_test_singleton_;
+    unit_test_singleton_ = NULL;
   }
 }
 

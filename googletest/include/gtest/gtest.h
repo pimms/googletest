@@ -1310,10 +1310,10 @@ class GTEST_API_ UnitTest {
     void Clear();
 
    private:
-    static UnitTest *t_;
+    static UnitTest *unit_test_singleton_;
   };
 
-  static Container singletonContainer_;
+  static Container singleton_container_;
 
 
   // Registers and returns a global test environment.  When a test
